@@ -22,7 +22,7 @@ extension Item: CustomStringConvertible {
     public func decreaseQuality(by qualityRate: Int, forceDecrease: Bool = false) {
         guard (self.quality >= qualityRate) || forceDecrease
         else {
-            self.quality = 0
+            self.quality = AppConstants.minItemQuality
             return
         }
         
@@ -30,9 +30,9 @@ extension Item: CustomStringConvertible {
     }
     
     public func increaseQuality(by qualityRate: Int, forceIncrease: Bool = false) {
-        guard (self.quality + qualityRate <= 50) || forceIncrease
+        guard (self.quality + qualityRate <= AppConstants.maxItemQuality) || forceIncrease
         else {
-            self.quality = 50
+            self.quality = AppConstants.maxItemQuality
             return
         }
         

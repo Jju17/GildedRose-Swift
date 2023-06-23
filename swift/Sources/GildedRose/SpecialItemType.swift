@@ -26,7 +26,11 @@ public enum SpecialItemType: String, CaseIterable {
         case .backstagePasses:
             self.updateBackStagePassesQuality(item)
         case .conjured:
-            item.decreaseQuality(by: 2)
+            if item.sellIn > 0 {
+                item.decreaseQuality(by: 2)
+            } else {
+                item.decreaseQuality(by: 4)
+            }
         case .sulfuras:
             return // Quality does not change for legendary item
         }
@@ -50,7 +54,7 @@ public enum SpecialItemType: String, CaseIterable {
     private func updateBackStagePassesQuality(_ item: Item) {
         switch item.sellIn {
         case ...0:
-            item.quality = 0
+            item.quality = AppConstants.minItemQuality
         case 1...5:
             item.increaseQuality(by: 3)
         case 6...10:
