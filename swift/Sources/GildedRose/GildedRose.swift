@@ -25,13 +25,13 @@ public class GildedRose {
     // MARK: - Inner work
     
     private func updateStandardItemQuality(for item: Item) {
-        if item.sellIn > 0 {
-            item.decreaseQuality(by: 1)
-        } else {
+        if item.isExpired {
             item.decreaseQuality(by: 2)
+        } else {
+            item.decreaseQuality(by: 1)
         }
         
-        item.sellIn -= 1
+        item.updateSellIn()
     }
     
     private func updateSpecialItemQuality(for item: Item) {
@@ -41,5 +41,7 @@ public class GildedRose {
         specialItem.updateQuality(for: item)
         specialItem.updateSellIn(for: item)
     }
+    
+    
     
 }

@@ -11,6 +11,7 @@ public class Item {
 }
 
 extension Item: CustomStringConvertible {
+    
     public var description: String {
         name + ", " + String(sellIn) + ", " + String(quality)
     }
@@ -19,8 +20,12 @@ extension Item: CustomStringConvertible {
         return SpecialItemType(rawValue: self.name) != nil
     }
     
+    public var isExpired: Bool {
+        return self.sellIn <= 0
+    }
+    
     public func decreaseQuality(by qualityRate: Int, forceDecrease: Bool = false) {
-        guard (self.quality >= qualityRate) || forceDecrease
+        guard (self.quality >= qualityRate)
         else {
             self.quality = AppConstants.minItemQuality
             return
@@ -29,8 +34,8 @@ extension Item: CustomStringConvertible {
         self.quality -= qualityRate
     }
     
-    public func increaseQuality(by qualityRate: Int, forceIncrease: Bool = false) {
-        guard (self.quality + qualityRate <= AppConstants.maxItemQuality) || forceIncrease
+    public func increaseQuality(by qualityRate: Int) {
+        guard (self.quality + qualityRate <= AppConstants.maxItemQuality)
         else {
             self.quality = AppConstants.maxItemQuality
             return
@@ -38,4 +43,12 @@ extension Item: CustomStringConvertible {
         
         self.quality += qualityRate
     }
+    
+    public func updateSellIn() {
+        guard self.sellIn != Int.min
+        else { return }
+        
+        self.sellIn -= 1
+    }
+    
 }

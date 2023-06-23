@@ -18,18 +18,18 @@ public enum SpecialItemType: String, CaseIterable {
     func updateQuality(for item: Item) {
         switch self {
         case .agedBrie:
-            if item.sellIn > 0 {
-                item.increaseQuality(by: 1)
-            } else {
+            if item.isExpired {
                 item.increaseQuality(by: 2)
+            } else {
+                item.increaseQuality(by: 1)
             }
         case .backstagePasses:
             self.updateBackStagePassesQuality(item)
         case .conjured:
-            if item.sellIn > 0 {
-                item.decreaseQuality(by: 2)
-            } else {
+            if item.isExpired {
                 item.decreaseQuality(by: 4)
+            } else {
+                item.decreaseQuality(by: 2)
             }
         case .sulfuras:
             return // Quality does not change for legendary item
@@ -39,11 +39,11 @@ public enum SpecialItemType: String, CaseIterable {
     func updateSellIn(for item: Item) {
         switch self {
         case .agedBrie:
-            item.sellIn -= 1
+            item.updateSellIn()
         case .backstagePasses:
-            item.sellIn -= 1
+            item.updateSellIn()
         case .conjured:
-            item.sellIn -= 1
+            item.updateSellIn()
         case .sulfuras:
             return // SellIn does not change for legendary item
         }
