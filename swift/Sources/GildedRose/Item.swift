@@ -14,4 +14,28 @@ extension Item: CustomStringConvertible {
     public var description: String {
         name + ", " + String(sellIn) + ", " + String(quality)
     }
+    
+    public var isSpecialItem: Bool {
+        return SpecialItemType(rawValue: self.name) != nil
+    }
+    
+    public func decreaseQuality(by qualityRate: Int, forceDecrease: Bool = false) {
+        guard (self.quality >= qualityRate) || forceDecrease
+        else {
+            self.quality = 0
+            return
+        }
+        
+        self.quality -= qualityRate
+    }
+    
+    public func increaseQuality(by qualityRate: Int, forceIncrease: Bool = false) {
+        guard (self.quality + qualityRate <= 50) || forceIncrease
+        else {
+            self.quality = 50
+            return
+        }
+        
+        self.quality += qualityRate
+    }
 }
